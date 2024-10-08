@@ -22,7 +22,7 @@ GPTOutput = client.chat.completions.create(
             "content": [
                 {
                 "type": "text",
-                "text": "From the first image, extract the player name and number. From the second image extract the points of each player from their corresponding number in the B column. The space between numbers dictate the point difference. For example if one number is two boxes below another, this means two points have been scored by the player of that number. By looking at the final score number of team B at the bottom of the second image, this should show you what all the player's points sum to. Then, output these stats together. That is the only output that I want."
+                "text": "From the first image, extract the player name and number. From the second image extract the points of each player from their corresponding number in the B column. The space between numbers dictate the point difference. For example if one number is two boxes below another, this means two points have been scored by the player of that number. By looking at the final score number of team B at the bottom of the second image, this should show you what all the player's points sum to. If the sum of the player's points that you have extracted does not equal the total of this final score number, then re-analyse the score column and begin to estimate symbols that you were unsure of and round them to the most likely number relating to a player. Do this until the player's total score equals the final score total. Then, output these stats together. That is the only output that I want."
                 },
                 {
                  "type": "image_url",
@@ -40,6 +40,7 @@ GPTOutput = client.chat.completions.create(
         }
     ],
     model="gpt-4o",
+    temperature=0.2,
 )
 
 # Print the result
