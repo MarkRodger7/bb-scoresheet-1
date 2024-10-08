@@ -7,13 +7,13 @@ client = openai.OpenAI(
     api_key="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"
 )
 
-imagePath = input("Enter image filename ")
-
 def getImage(imagePath):
   with open(imagePath, "rb") as image_file:
     return base64.b64encode(image_file.read()).decode('utf-8')
 
-base64Image = getImage(imagePath)
+teamImage = getImage("team.jpg")
+scoreImage = getImage("score.jpg")
+
 
 GPTOutput = client.chat.completions.create(
     messages=[
@@ -22,12 +22,18 @@ GPTOutput = client.chat.completions.create(
             "content": [
                 {
                 "type": "text",
-                "text": "This is a basketball scoresheet. By looking at the St Andrews Mens 2 team section in the bottom left of the image, give me the name, number and points for each player from St Andrews. St Andrews are in the team B column of the running score."
+                "text": "From the first image, extract the player name and number. From the second image extract the points of each player from their corresponding number in the B column. The space between numbers dictate the point difference. For example if one number is two boxes below another, this means two points have been scored by the player of that number. By looking at the final score number of team B at the bottom of the second image, this should show you what all the player's points sum to. Then, output these stats together. That is the only output that I want."
                 },
                 {
                  "type": "image_url",
                  "image_url": {
-                   "url": f"data:image/jpeg;base64,{base64Image}"
+                   "url": f"data:image/jpeg;base64,{teamImage}"
+                 } 
+                },
+                                {
+                 "type": "image_url",
+                 "image_url": {
+                   "url": f"data:image/jpeg;base64,{scoreImage}"
                  } 
                 }
             ]
